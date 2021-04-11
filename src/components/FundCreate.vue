@@ -10,7 +10,7 @@
                      :value="true"
                      type="error"
             >
-              Please verify Bond information.
+              Please verify Mutual Fund information.
             </v-alert>
           </v-col>
         </v-row>
@@ -33,7 +33,7 @@
                     type="number"
                     /-->
                     <v-select
-                    v-model="bond.customer"
+                    v-model="fund.customer"
                     label="Customer Number"
                     :items="list"
                     item-value='pk'
@@ -41,39 +41,50 @@
                     ></v-select>
  
                     <v-text-field
-                    v-model="bond.symbol"
+                    v-model="fund.symbol"
                     label="Symbol"
                     required
                     />
                     <v-text-field
-                    v-model="bond.name"
+                    v-model="fund.name"
                     label="Name"
                     required
                     />
                     <v-text-field
-                    v-model="bond.bonds"
-                    label="Bonds"
+                    v-model="fund.description"
+                    label="Description"
                     required
-                    type="number"
                     />
                     <v-text-field
-                    v-model="bond.purchase_price"
+                    v-model="fund.purchase_price"
                     label="Purchase Price"
                     required
                     type="number"
  
                     />
                     <v-text-field
-                    v-model="bond.purchase_date"
+                    v-model="fund.purchase_date"
                     label="Purchase Date"
+                    required
+                    type="date"
+                    />
+                    <v-text-field
+                    v-model="fund.recent_value"
+                    label="Recent Value"
+                    required
+                    type="number"
+                    />
+                    <v-text-field
+                    v-model="fund.recent_date"
+                    label="Recent Date"
                     required
                     type="date"
                     />
                    
  
                 </v-container>
-                <v-btn v-if="!isUpdate" class="blue white--text" @click="createBond">Save</v-btn>
-                <v-btn v-if="isUpdate" class="blue white--text" @click="updateBond">Update</v-btn>
+                <v-btn v-if="!isUpdate" class="blue white--text" @click="createFund">Save</v-btn>
+                <v-btn v-if="isUpdate" class="blue white--text" @click="updateFund">Update</v-btn>
                 <v-btn class="white black--text" @click="cancelOperation">Cancel</v-btn>
                 </v-form>
               </v-card-text>
@@ -92,14 +103,14 @@
   const apiService = new APIService();
  
   export default {
-    name: 'BondCreate',
+    name: 'FundCreate',
     components: {},
     data() {
       return {
         customers: [],
         showError: false,
-        bond: {},
-        pageTitle: "Add New Bond",
+        fund: {},
+        pageTitle: "Add New Mutual Fund",
         isUpdate: false,
         showMsg: '',
       };
@@ -131,12 +142,12 @@
           }
         });
       },
-      createBond() {
-        apiService.addNewBond(this.bond).then(response => {
+      createFund() {
+        apiService.addNewFund(this.fund).then(response => {
           if (response.status === 201) {
-            this.bond = response.data;
+            this.fund = response.data;
              this.showMsg = "";
-            router.push('/bond-list/new');
+            router.push('/fund-list/new');
           }else{
               this.showMsg = "error";
           }
@@ -149,13 +160,13 @@
         });
       },
       cancelOperation(){
-         router.push("/bond-list");
+         router.push("/fund-list");
       },
-      updateBond() {
-        apiService.updateBond(this.bond).then(response => {
+      updateFund() {
+        apiService.updateFund(this.fund).then(response => {
           if (response.status === 200) {
-            this.bond = response.data;
-            router.push('/bond-list/update');
+            this.fund = response.data;
+            router.push('/fund-list/update');
           }else{
               this.showMsg = "error";
           }
@@ -171,10 +182,10 @@
     mounted() {
       this.getCustomers();
       if (this.$route.params.pk) {
-        this.pageTitle = "Edit Bond";
+        this.pageTitle = "Edit Mutual Fund";
         this.isUpdate = true;
-        apiService.getBond(this.$route.params.pk).then(response => {
-          this.bond = response.data;
+        apiService.getFund(this.$route.params.pk).then(response => {
+          this.fund = response.data;
         }).catch(error => {
           if (error.response.status === 401) {
             router.push("/auth");

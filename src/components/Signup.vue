@@ -68,10 +68,10 @@
                     required
  
                     />
-                      <!--
+                      
                     <v-text-field
                      :type="showPassword1 ? 'text' : 'Password'"
-                    v-model="user.password1"
+                    v-model="user.password2"
                     label="Repeat Password"
                     :rules="rules.password2"
                     :counter="20"
@@ -80,7 +80,7 @@
                   @click:append="showPassword1 = ! showPassword1"
                     required
                     />
-                     -->
+                     
  
                 </v-container>
                 <v-btn class="blue white--text" :disabled="!valid" @click="signup">SignUp as an advisor </v-btn>
@@ -125,7 +125,7 @@
          password2: [
           v => !!v || "Password is required",
           v => (v && v.length > 7) || "The password must be longer than 7 characters",
-          v => v === this.user.password1 || "Passwords do not match"
+          v => v === this.user.password || "Passwords do not match"
         ],
         firstname:[  
             v => !!v || "FirstName is required",

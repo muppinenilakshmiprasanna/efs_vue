@@ -1,7 +1,7 @@
 
 /* eslint-disable */
 import axios from 'axios';
-const API_URL =  'http://localhost:8000';
+const API_URL =  ' https://efs-2021.herokuapp.com';
 /*'http://djangoeaformasters.pythonanywhere.com/'; http://groyce.pythonanywhere.com or http://localhost:8000 */
 
 export class APIService {
@@ -130,16 +130,16 @@ deleteStock(stock_Pk){
  return axios.delete(url, {headers: headers});
 }
 
-getBond(param_pk) {
-  const url = `${API_URL}/api/bonds/${param_pk}`;
+getFund(param_pk) {
+  const url = `${API_URL}/api/funds/${param_pk}`;
   let jwtToken = localStorage.getItem('token');
   console.log(":::jwtToken:::::"+jwtToken);
   const headers = {Authorization: `jwt ${jwtToken}`};
   return axios.get(url, {headers: {Authorization: `jwt ${jwtToken}`}});
 }
 
-getBondList() {
-    const url = `${API_URL}/api/bonds`;
+getFundList() {
+    const url = `${API_URL}/api/funds`;
     let jwtToken = localStorage.getItem('token');
     console.log(":::jwtToken:::::" + jwtToken);
     const headers = {Authorization: `jwt ${jwtToken}`};
@@ -147,22 +147,22 @@ getBondList() {
 
 }
 
-addNewBond(bond){
-const url = `${API_URL}/api/bonds/`;
+addNewFund(fund){
+const url = `${API_URL}/api/funds/`;
 let jwtToken = localStorage.getItem('token');
 const headers = {Authorization: `jwt ${jwtToken}`};
-return axios.post(url, bond, {headers: headers});
+return axios.post(url, fund, {headers: headers});
 }
 
-updateBond(bond){
-const url = `${API_URL}/api/bonds/${bond.pk}`;
+updateFund(fund){
+const url = `${API_URL}/api/funds/${fund.pk}`;
 let jwtToken = localStorage.getItem('token');
 const headers = {Authorization: `jwt ${jwtToken}`};
-return axios.put(url, bond, {headers: headers});
+return axios.put(url, fund, {headers: headers});
 }
 
-deleteBond(bond_Pk){
- const url = `${API_URL}/api/bonds/${bond_Pk}`;
+deleteFund(fund_Pk){
+ const url = `${API_URL}/api/funds/${fund_Pk}`;
  let jwtToken = localStorage.getItem('token');
  const headers = {Authorization: `jwt ${jwtToken}`};
  return axios.delete(url, {headers: headers});

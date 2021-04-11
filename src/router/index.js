@@ -9,8 +9,8 @@ import InvestmentList from '@/components/InvestmentList'
 import InvestmentCreate from '@/components/InvestmentCreate'
 import StockList from '@/components/StockList'
 import StockCreate from '@/components/StockCreate'
-import BondList from '@/components/BondList'
-import BondCreate from '@/components/BondCreate'
+import FundList from '@/components/FundList'
+import FundCreate from '@/components/FundCreate'
 import Signup from '@/components/Signup'
 
 
@@ -88,24 +88,24 @@ export default new Router({
       component: StockCreate
     },
     {
-      path: '/bond-list',
-      name: 'BondsList',
-      component: BondList
+      path: '/fund-list',
+      name: 'FundsList',
+      component: FundList
     },
     {
-      path: '/bond-list/:msg',
-      name: 'BondUpdatedList',
-      component: BondList
+      path: '/fund-list/:msg',
+      name: 'FundUpdatedList',
+      component: FundList
     },
     {
-      path: '/bond-create',
-      name: 'BondCreate',
-      component: BondCreate
+      path: '/fund-create',
+      name: 'FundCreate',
+      component: FundCreate
     },
     {
-      path: '/bond-create/:pk',
-      name: 'BondUpdate',
-      component: BondCreate
+      path: '/fund-create/:pk',
+      name: 'FundUpdate',
+      component: FundCreate
     },
     {
       path: '/auth',

@@ -84,11 +84,11 @@
                     </v-img>
                     <v-card-text>
                       <div class="blue--text text-h6">
-                        Bonds
+                        Mutual Funds
                       </div>  
                     </v-card-text>
                     <v-card-actions>
-                      <v-btn flat color="orange" @click="viewBonds">View Details</v-btn>
+                      <v-btn flat color="orange" @click="viewFunds">View Details</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-col>
@@ -122,8 +122,8 @@
       viewStocks() {
         router.push('/stock-list');
       },
-      viewBonds() {
-        router.push('/bond-list');
+      viewFunds() {
+        router.push('/fund-list');
       },
 
       getUser() {

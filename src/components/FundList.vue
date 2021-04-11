@@ -20,19 +20,19 @@
                    :value="true"
                    type="success"
           >
-            New Bond has been added.
+            New Mutual Fund has been added.
           </v-alert>
           <v-alert v-if="showMsg === 'update'" dismissible
                    :value="true"
                    type="success"
           >
-           Bond information has been updated.
+            Mutual Fund information has been updated.
           </v-alert>
           <v-alert v-if="showMsg === 'deleted'" dismissible
                    :value="true"
                    type="success"
           >
-            Selected Bond has been deleted.
+            Selected  Mutual Fund has been deleted.
           </v-alert>
         </v-col>
       </v-row>
@@ -42,7 +42,7 @@
         <v-col cols="12" md="10" v-resize="onResize">
             <v-data-table
               :headers="headers"
-              :items="bonds"
+              :items="funds"
               class="elevation-1"
               style="max-height: 300px; overflow-y: auto"
               v-if="!isMobile"
@@ -52,16 +52,18 @@
                         <td align="left">{{ props.item.cust_number }}</td>
                         <td nowrap="true" align="left">{{ props.item.symbol }}</td>
                         <td nowrap="true" align="left">{{ props.item.name }}</td>
-                        <td nowrap="true" align="left">{{ props.item.bonds }}</td>
+                        <td nowrap="true" align="left">{{ props.item.description }}</td>
                         <td nowrap="true" align="left">{{ props.item.purchase_price }}</td>
                         <td nowrap="true" align="left">{{ props.item.purchase_date }}</td>
-                        <td align="center"><v-icon @click="updateBond(props.item)">mdi-pencil</v-icon></td>
-                        <td align="center"><v-icon @click="deleteBond(props.item)">mdi-delete</v-icon></td>
+                        <td nowrap="true" align="left">{{ props.item.recent_value }}</td>
+                        <td nowrap="true" align="left">{{ props.item.recent_date }}</td>
+                        <td align="center"><v-icon @click="updateFund(props.item)">mdi-pencil</v-icon></td>
+                        <td align="center"><v-icon @click="deleteFund(props.item)">mdi-delete</v-icon></td>
                       </tr>  
                     </template>
               </v-data-table>
               <v-data-iterator 
-                :items="bonds"
+                :items="funds"
                 hide-default-footer
                 v-else
               >
@@ -77,8 +79,8 @@
                           <v-col cols="9" class="text-left body-2 text-truncate">{{item.cust_number}} - {{item.name }}</v-col>
                           <v-col cols="3" class="text-center">
                             <v-card-actions>
-                              <v-icon @click="updateBond(item)" class="small">mdi-pencil</v-icon>
-                              <v-icon @click="deleteBond(item)" class="small">mdi-delete</v-icon>
+                              <v-icon @click="updateFund(item)" class="small">mdi-pencil</v-icon>
+                              <v-icon @click="deleteFund(item)" class="small">mdi-delete</v-icon>
                               <v-icon @click.native="expand(item, !isExpanded(item))" class="small">mdi-dots-horizontal</v-icon>
                             </v-card-actions>
                           </v-col>
@@ -91,8 +93,8 @@
                             <v-list-item-content class="align-end">{{ item.symbol }}</v-list-item-content>
                           </v-list-item>
                           <v-list-item>
-                            <v-list-item-content>Bonds:</v-list-item-content>
-                            <v-list-item-content class="align-end">{{ item.bonds }}</v-list-item-content>
+                            <v-list-item-content>Name:</v-list-item-content>
+                            <v-list-item-content class="align-end">{{ item.name }}</v-list-item-content>
                           </v-list-item>
                           <v-list-item>
                             <v-list-item-content>Purchase Price:</v-list-item-content>
@@ -105,7 +107,7 @@
                   </v-row>
                 </template>     
               </v-data-iterator>  
-              <v-btn class="blue mt-4 white--text" @click="addNewBond">Add Bond</v-btn>  
+              <v-btn class="blue mt-4 white--text" @click="addNewFund">Add MutualFund</v-btn>  
         </v-col>  
       </v-row>
     </v-container>  
@@ -120,20 +122,22 @@
   const apiService = new APIService();
 
   export default {
-    name: "BondList",
+    name: "FundList",
     data: () => ({
-      bonds: [],
+      funds: [],
       validUserName: "Guest",
-      bondSize: 0,
+      fundSize: 0,
       showMsg: '',
       isMobile: false,
       headers: [
         {text: 'Customer Number', sortable: false, align: 'left',},
         {text: 'Symbol', sortable: false, align: 'left',},
         {text: 'Name', sortable: false, align: 'left',},
-        {text: 'Bonds', sortable: false, align: 'left',},
+        {text: 'Description', sortable: false, align: 'left',},
         {text: 'Purchase Price', sortable: false, align: 'left',},
         {text: 'Purchase Date', sortable: false, align: 'left',},
+        {text: 'Recent Value', sortable: false, align: 'left',},
+        {text: 'Recent Date', sortable: false, align: 'left',},
         {text: 'Update', sortable: false, align: 'left',},
         {text: 'Delete', sortable: false, align: 'left',}
 
@@ -141,7 +145,7 @@
 
     }),
     mounted() {
-      this.getBonds();
+      this.getFunds();
       this.showMessages();
     },
     methods: {
@@ -157,10 +161,10 @@
           this.showMsg = this.$route.params.msg;
         }
       },
-      getBonds() {
-        apiService.getBondList().then(response => {
-          this.bonds = response.data.data;
-          this.bondSize = this.bonds.length;
+      getFunds() {
+        apiService.getFundList().then(response => {
+          this.funds = response.data.data;
+          this.fundSize = this.funds.length;
           if (localStorage.getItem("isAuthenticates")
             && JSON.parse(localStorage.getItem("isAuthenticates")) === true) {
             this.validUserName = JSON.parse(localStorage.getItem("log_user"));
@@ -174,22 +178,22 @@
           }
         });
       },
-      addNewBond() {
+      addNewFund() {
         if (localStorage.getItem("isAuthenticates")
           && JSON.parse(localStorage.getItem("isAuthenticates")) === true) {
-          router.push('/bond-create');
+          router.push('/fund-create');
         } else {
           router.push("/auth");
         }
       },
-      updateBond(bond) {
-        router.push('/bond-create/' + bond.pk);
+      updateFund(fund) {
+        router.push('/fund-create/' + fund.pk);
       },
-      deleteBond(bond) {
-        apiService.deleteBond(bond.pk).then(response => {
+      deleteFund(fund) {
+        apiService.deleteFund(fund.pk).then(response => {
           if (response.status === 204) {
-            router.push('/bond-list/deleted');
-            this.getBonds();
+            router.push('/fund-list/deleted');
+            this.getFunds();
             this.showMessages();
           }
         }).catch(error => {
