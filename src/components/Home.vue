@@ -80,7 +80,7 @@
                 <v-col>
                   <v-card>
                     <v-img
-                      :src="require('@/assets/images/bonds.jpg')" height="200px">
+                      :src="require('@/assets/images/mutualfunds.jpeg')" height="200px">
                     </v-img>
                     <v-card-text>
                       <div class="blue--text text-h6">
