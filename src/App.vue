@@ -111,7 +111,7 @@
 </script>
 <style scoped>
    .forimage{
-    background-image: url('./assets/images/bp1.jpg');
+    background-image: url('https://mdbootstrap.com/img/Photos/Horizontal/Nature/full%20page/img(11).jpg');
     background-size: cover;
   }
 </style>
