@@ -111,7 +111,7 @@
 </script>
 <style scoped>
    .forimage{
-    background-image: url('@/assets/images/bp1.jpg');
+    background-image: url('assets/images/bp1.jpg');
     background-size: cover;
   }
 </style>
